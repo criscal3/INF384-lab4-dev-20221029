@@ -37,7 +37,7 @@ https://github.com/criscal3/INF384-lab4-dev-20221029/commit/45f276a9a4bbd9ad6145
 - Evidencia (dato observado, con link al run o fragmento de la salida local): Defecto en el run https://github.com/criscal3/INF384-lab4-dev-20221029/actions/runs/40957712520.
 
 ## Parte 2 · Implementación
-- Link al run en verde en main: https://github.com/criscal3/INF384-lab4-dev-20221029/actions/runs/40968659171
+- Link al run en verde en main: https://github.com/criscal3/INF384-lab4-dev-20221029/actions/runs/40967990279
 - Link al pull request:
 - Defecto de la aplicación introducido (archivo y descripción):
 - Job que debería detenerlo:
