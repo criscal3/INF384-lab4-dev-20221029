@@ -19,15 +19,15 @@ https://github.com/criscal3/INF384-lab4-dev-20221029/commit/45f276a9a4bbd9ad6145
 ### Defecto 3
 - Job y etapa: build-push, etapa build. Arrastra a deploy, smoke, e2e y load.
 - Problema que causa en el pipeline: el workflow se dispara con pull_request y build-push no tiene ninguna condición if. Cualquier PR cuyos jobs pre-build pasen sube una imagen a ECR y deploy actualiza la Lambda compartida monedero-andino con código sin revisar ni mergear. Dos PRs abiertos se pisan entre sí, y el despliegue de main queda reemplazado por el de una rama. Además cada PR ejecuta smoke, e2e y load (más de 12 minutos de k6) contra ese despliegue.
-- Link al commit: 
+- Link al commit: https://github.com/criscal3/INF384-lab4-dev-20221029/commit/24d93b2f4f7dc7279e5a674119153795d3fdc3e2
 - Corrección (una o más: mover de etapa / dejar como informativo / eliminar / ajustar configuración / modificar tests): ajustar configuración. Como deploy no se modifica, la condición va en build-push:
 - Evidencia (dato observado, con link al run o fragmento de la salida local): En el run https://github.com/criscal3/INF384-lab4-dev-20221029/actions/runs/40965825558, aparece el encabezado “Triggered via pull request” y build-push y deploy terminaron en verde.
 ### Defecto 4
-- Job y etapa: 
-- Problema que causa en el pipeline:
+- Job y etapa: integration, pre-build. Archivo test/integration/transferir.test.js.
+- Problema que causa en el pipeline: los tests dependen del orden y del estado compartido de la base. Por ejemplo, el saldo de ana refleja el debito espera 900 solo porque el test anterior transfirió 100, y el historial espera exactamente 1 movimiento. Si un test se ejecuta solo, se reordena o la base /tmp/wallet.db ya tiene datos de una corrida previa, fallan sin que haya un bug en la aplicación. Esto genera falsos rojos y hace que el diagnóstico de un fallo real sea más lento.
 - Link al commit: 
-- Corrección (una o más: mover de etapa / dejar como informativo / eliminar / ajustar configuración / modificar tests): 
-- Evidencia (dato observado, con link al run o fragmento de la salida local):
+- Corrección (una o más: mover de etapa / dejar como informativo / eliminar / ajustar configuración / modificar tests): modificar tests. Cada test debe preparar su propio estado, por ejemplo con un DB_PATH temporal por test o un before que reinicie la base semilla, y verificar el saldo en el mismo test que hace la transferencia.
+- Evidencia (dato observado, con link al run o fragmento de la salida local): Con DB_PATH apuntando a una base limpia, npm run test:integration pasa completo (12 tests). Al ejecutar solo el saldo de beto refleja el credito con --test-name-pattern, el test falla: esperaba 600 y obtuvo 500, sin ningún cambio en src/. Al correr la suite una segunda vez sobre la misma base, fallan 6 tests, por ejemplo ana con expected: 900, actual: 800. Los tests dependen del orden y del estado que dejó el test anterior, no de su propio arreglo.
 ### Defecto 5
 - Job y etapa:
 - Problema que causa en el pipeline:
