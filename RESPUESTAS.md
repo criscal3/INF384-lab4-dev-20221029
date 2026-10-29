@@ -40,25 +40,25 @@ https://github.com/criscal3/INF384-lab4-dev-20221029/commit/45f276a9a4bbd9ad6145
 ## Parte 2 · Implementación
 - Link al run en verde en main: https://github.com/criscal3/INF384-lab4-dev-20221029/actions/runs/40967990279
 - Link al pull request: https://github.com/criscal3/INF384-lab4-dev-20221029/pull/2
-- Defecto de la aplicación introducido (archivo y descripción):
-- Job que debería detenerlo:
-- Link al run fallido: 
+- Defecto de la aplicación introducido (archivo y descripción): un usuario no puede transferir exactamente todo su saldo. Con saldo 5,00 y monto 5,00, la API responde 400 saldo insuficiente en vez de 200 y dejar el origen en cero. Las transferencias menores siguen funcionando, por eso el bug pasa desapercibido en una prueba manual rápida.
+- Job que debería detenerlo: unit (pre-build). El test transferir todo el saldo deja el origen en cero de test/unit/wallet.test.js transfiere 5 con saldo 500 céntimos y falla porque obtiene 400. integration también debería fallar (diego transfiere todo su saldo a elena), lo cual el enunciado permite.
+- Link al run fallido: https://github.com/criscal3/INF384-lab4-dev-20221029/actions/runs/40969408663
 
 ## Parte 3 · Decisión bajo restricción
-Link al run medido:
+Link al run medido: https://github.com/criscal3/INF384-lab4-dev-20221029/actions/runs/40967990279
 
 | Job | Duración (min:seg) |
 |---|---|
-| unit | |
-| integration | |
-| sast | |
-| sca | |
-| build-push | |
-| deploy | |
-| smoke | |
-| e2e | |
-| load | |
-| **Total** | |
+| unit | 10 seg |
+| integration | 14 seg |
+| sast | 23 seg |
+| sca | 22 seg |
+| build-push | 52 seg |
+| deploy | 21 seg |
+| smoke | 8 seg |
+| e2e | 16 seg |
+| load | 12 min 8 seg|
+| **Total** | 14 min 6 seg |
 
 Resultado de load en ese run:
 | Métrica | Valor |
