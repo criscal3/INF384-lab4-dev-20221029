@@ -8,7 +8,7 @@ Presupuesto: [ ] min  Métrica DORA: [ ]
 - Problema que causa en el pipeline: smoke corre en paralelo con deploy, no después. Puede consultar Lambda antes de que se actualice y aprobar contra la versión anterior. El paso Smoke tampoco define EXPECTED_COMMIT, así que smoke.sh omite la verificación de /version y nunca comprueba que lo desplegado sea el commit del run. Como e2e y load cuelgan de smoke, también pueden probar código viejo. Los bucles de reintento de 5 a 10 s ocultan la carrera y gastan tiempo.
 - Link al commit:
 - Corrección (una o más: mover de etapa / dejar como informativo / eliminar / ajustar configuración / modificar tests): mover de etapa + ajustar configuración. Cambiar a needs: deploy en smoke y agregar EXPECTED_COMMIT: ${{ github.sha }} en el env del paso Smoke.
-- Evidencia (dato observado, con link al run o fragmento de la salida local):
+- Evidencia (dato observado, con link al run o fragmento de la salida local): Defecto en el run https://github.com/criscal3/INF384-lab4-dev-20221029/actions/runs/40957712520. El job smoke está en paralelo al job deploy. En el paso Smoke solo aparecen las líneas salud: y saldo:; falta la línea commit:, que smoke.sh imprime solo si EXPECTED_COMMIT está definida. La Lambda reportó el commit 49ba49ebee84f4c9f8b6943031595970311a3bb6, pero el script no lo comparó con el SHA del run.
 ### Defecto 2
 - Job y etapa:
 - Problema que causa en el pipeline:
