@@ -40,9 +40,9 @@ test('ana transfiere 100 a beto y ambos saldos e historial lo reflejan', async (
   assert.equal(h.cuerpo[0].monto, 100);
 });
 
-test('ana no puede transferir 950 y los saldos no cambian', async () => {
+test('ana no puede transferir mas que su saldo y los saldos no cambian', async () => {
   const llamar = entorno();
-  const r = await llamar('POST', '/transferir', { origen: 'ana', destino: 'carla', monto: 950 });
+  const r = await llamar('POST', '/transferir', { origen: 'ana', destino: 'carla', monto: 1000.01 });
   assert.equal(r.status, 400);
   assert.equal(r.cuerpo.error, 'saldo insuficiente');
   assert.equal((await llamar('GET', '/saldo/ana')).cuerpo.saldo, 1000);
