@@ -37,3 +37,4 @@ echo "$saldo" | jq -e '.usuario == "ana" and (.saldo | type == "number")' > /dev
 echo "saldo: ${saldo}"
 # prueba pr
 # prueba pr
+# prueba pr
