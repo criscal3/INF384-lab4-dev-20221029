@@ -1,0 +1,33 @@
+name: evidencia-integration
+on:
+  push:
+    branches: [evidencia-integration]
+
+jobs:
+  aislado-y-repetido:
+    runs-on: ubuntu-24.04
+    env:
+      DB_PATH: /tmp/wallet.db
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+
+      - name: Prueba 1 - un test aislado
+        continue-on-error: true
+        run: |
+          rm -f "$DB_PATH"
+          node --test --test-name-pattern="el saldo de beto refleja el credito" test/integration/
+
+      - name: Prueba 2a - primera corrida completa
+        continue-on-error: true
+        run: |
+          rm -f "$DB_PATH"
+          npm run test:integration
+
+      - name: Prueba 2b - segunda corrida sobre la misma base
+        continue-on-error: true
+        run: npm run test:integration
