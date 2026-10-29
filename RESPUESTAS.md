@@ -86,4 +86,4 @@ Riesgo aceptado (defecto de la aplicación concreto y efecto en la métrica DORA
 Decisión sobre sast (se queda / se mueve a otra etapa o evento / informativo) y razón:
 
 ## Declaración de uso de IA
-Herramientas usadas y para qué:
+Herramientas usadas y para qué: Claude, para generación de código y redacción
