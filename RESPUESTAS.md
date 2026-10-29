@@ -32,9 +32,9 @@ https://github.com/criscal3/INF384-lab4-dev-20221029/commit/45f276a9a4bbd9ad6145
 ### Defecto 5
 - Job y etapa: test/load/transferir.js, job load, post-deploy.
 - Problema que causa en el pipeline: http.setResponseCallback(http.expectedStatuses(200, 400)) y el check 'transferir 200 o 400' tratan cualquier 400 como éxito. Si un bug en src/ rechaza todas las transferencias (por ejemplo, con usuario invalido o monto debe ser numerico), http_req_failed y checks no se activan. El job queda en verde sin haber probado ninguna transferencia exitosa. Esto pesa más aún en tu Parte 2, donde el defecto de la aplicación debe ser detenido por un job.
-- Link al commit:
+- Link al commit: https://github.com/criscal3/INF384-lab4-dev-20221029/commit/5a96e4aeb4a5b5f68fca6993ae1eb1ec546e9f33
 - Corrección (una o más: mover de etapa / dejar como informativo / eliminar / ajustar configuración / modificar tests): aceptar el 400 solo si es saldo insuficiente, que es el único 400 legítimo bajo carga, y exigir un mínimo de transferencias exitosas.
-- Evidencia (dato observado, con link al run o fragmento de la salida local):
+- Evidencia (dato observado, con link al run o fragmento de la salida local): Defecto en el run https://github.com/criscal3/INF384-lab4-dev-20221029/actions/runs/40957712520.
 
 ## Parte 2 · Implementación
 - Link al run en verde en main:
