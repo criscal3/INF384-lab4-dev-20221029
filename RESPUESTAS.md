@@ -12,7 +12,8 @@ Presupuesto: [ ] min  Métrica DORA: [ ]
 ### Defecto 2
 - Job y etapa: e2e, post-deploy (needs: smoke). Archivo test/e2e/api.spec.ts.
 - Problema que causa en el pipeline: 9 de los 10 tests usan page.request, es decir, llamadas HTTP a la API sin navegador. Repiten lo que ya cubren integration (lógica de negocio) y smoke (salud, versión, saldo). El único test con navegador hace page.goto a una respuesta JSON, que no valida ninguna interfaz. El job instala Chromium con --with-deps y ese tiempo se desperdicia. Además muta el estado compartido (transfiere elena→ana) mientras load corre en paralelo sobre los mismos usuarios.
-- Link al commit: 
+- Link al commit: https://github.com/criscal3/INF384-lab4-dev-20221029/commit/33a5b7dca740af43b2c27f4e83e542057982df39
+https://github.com/criscal3/INF384-lab4-dev-20221029/commit/45f276a9a4bbd9ad61453c90936ff4c24b9a9724
 - Corrección (una o más: mover de etapa / dejar como informativo / eliminar / ajustar configuración / modificar tests): modificar tests + eliminar + ajustar configuración. Usar el fixture request en vez de page, eliminar los tests duplicados y el de page.goto, y quitar el paso Navegador (npx playwright install).
 - Evidencia (dato observado, con link al run o fragmento de la salida local): En el run [link al run original], el job e2e duró 45 s en total. El paso Navegador (npx playwright install --with-deps chromium) tomó 21 s, es decir, el 47 % (21/45) del job, solo para instalar un navegador que casi no se usa. Con grep -c "page.request" test/e2e/api.spec.ts obtuve [9] y con grep -c "page.goto" test/e2e/api.spec.ts obtuve [1]. De 10 tests, 9 llaman a la API por HTTP sin navegador y el único que usa el navegador abre una respuesta JSON (/saldo/carla), no una interfaz.
 ### Defecto 3
